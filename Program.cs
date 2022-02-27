@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace NetTrueFlow
 {
@@ -17,7 +18,14 @@ namespace NetTrueFlow
                 {
                     byte[] buffer = new byte[fstream.Length];
                     fstream.Read(buffer, 0, buffer.Length);
-                    Console.WriteLine(buffer);
+                    string textFromFile = Encoding.Default.GetString(buffer);
+
+                    // Console.WriteLine(textFromFile);
+                    // parsing statistic
+                    var res = new netData(textFromFile);
+                    // 
+                    res.parsingData();
+                    res.outputResult();
                 }
             } catch (Exception e) { 
                 Console.WriteLine("Не могу прочитать указанный файл");
