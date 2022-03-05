@@ -1,68 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NetTrueFlow
 {
-    internal class netData
+    internal static class netData
     {
-        public string inputFile { get; set; }
-        List<string> denyTCPIncomingAddress = new List<string> { };
-        List<string> denyUDPIncomingAddress = new List<string> { };
-        List<string> denyICMPIncomingAddress = new List<string> { };
-        
-        List<string> sourceOutgoingAddress = new List<string> { };
+
+        static public string inputFile { get; set; }
 
         // всего обработано строк в файле
-        int allString = 0;
+        static int allString = 0;
         // всего строк имеет отношение к сетевому журналу
-        int allDataString = 0;
+        static int allDataString = 0;
         // Count TCP block packet
-        int countTCPblock = 0;
+        static int countTCPblock = 0;
         // Count UDP block packet
-        int countUDPblock = 0;
+        static int countUDPblock = 0;
         // Count ICMP block packet
-        int countICMPblock = 0;
-        int blockConnection = 0;
+        static int countICMPblock = 0;
+        static int blockConnection = 0;
         
-        public netData(string s)
-        {
-            inputFile = s;
-        }
 
-        public void parsingData()
+        public static void parsingData(string fileName)
         {
-            if (string.IsNullOrEmpty(inputFile))
+            if (string.IsNullOrEmpty(fileName))
             {
                 return;
             }
+            inputFile = fileName;
 
-            string[] newText = inputFile.Split('\n');
-            foreach (string line in newText)
+            try
             {
-                allString++;
-                if (line.Contains("%ASA-"))
+                foreach (string line in File.ReadLines(inputFile))
                 {
-                    allDataString++;
-                    parseOneString(line);
+                    allString++;
+                    if (line.Contains("%ASA-"))
+                    {
+                        allDataString++;
+                        parseOneString(line);
+                    }
                 }
+            } catch (Exception e) { 
+                Console.WriteLine(e.Message);
             }
         }
 
-        public void outputResult()
+        public static void outputResult()
         {
             Console.WriteLine("Parsing all lines: {0}", allString);
             Console.WriteLine("Lines from cisco FPR log: {0}", allDataString);
             Console.WriteLine("Block connection: {0}", blockConnection);
             Console.WriteLine("\tBlock TCP connection: {0}", countTCPblock);
+            netListTCP.outputList();
             Console.WriteLine("\tBlock UDP connection: {0}", countUDPblock);
+            netListUDP.outputList();
             Console.WriteLine("\tBlock ICMP connection: {0}", countICMPblock);
+            netListICMP.outputList();
         }
 
     // ------------- work function -------------------------------------------------------------------
-        private void parseOneString(string line)
+        private static void parseOneString(string line)
         {
             var eventTime = getTimeFromString(line);
 
@@ -75,21 +76,21 @@ namespace NetTrueFlow
                 {
                     if(arr[i] == "Deny")
                     {
-                        /*Console.WriteLine("proto: {0}", arr[i+1]);
+                       /* Console.WriteLine("proto: {0}", arr[i+1]);
                         Console.WriteLine("src: {0}", arr[i + 3]);
-                        Console.WriteLine("dst: {0}", arr[i + 5]);*/
+                        Console.WriteLine("dst: {0}", arr[i + 5]); */
 
                         if (arr[i + 1] == "tcp") { 
                             countTCPblock++;
-                            denyTCPIncomingAddress.Add(arr[i + 3]);
+                            netListTCP.addAddrInList(arr[i + 3]);
                         }
                         if (arr[i + 1] == "udp") {
-                            denyUDPIncomingAddress.Add(arr[i + 3]);
-                            countUDPblock++; 
+                            countUDPblock++;
+                            netListUDP.addAddrInList(arr[i + 3]);
                         }
                         if (arr[i + 1] == "icmp") { 
                             countICMPblock++;
-                            denyICMPIncomingAddress.Add(arr[i + 3]);
+                            netListICMP.addAddrInList(arr[i + 3]);
                         }
                     }
                 }
@@ -103,11 +104,13 @@ namespace NetTrueFlow
             }
         }
 
-        private string getTimeFromString(string line)
+        private static string getTimeFromString(string line)
         {
             string[] arr = line.Split(' ');
             return arr[0] + " " +  arr[1] + " " + arr[2];
         }
 
+        
+        // -------------------------------------------------------------------------------------------------------------------------
     }
 }
