@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 
 namespace NetTrueFlow
 {
+    static class Constant
+    {
+        public const int DEFAULT_OUTPUT_STRING = 15;
+    }
+
+
     internal static class netListTCP
     {
-        static private int defaultOutputString = 15;
-        
-        
+             
         static List<netRecord> denyTCPIncomingAddress = new List<netRecord> { };
-        public static void addAddrInList(string str)
+        public static void addAddrInList(string str, string destination)
         {
-            if (string.IsNullOrEmpty(str)) { return; }
+            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(destination)) { return; }
 
             string[] arr = str.Split(':', '/');
             if (arr.Count() != 3) { return; }
@@ -25,15 +29,18 @@ namespace NetTrueFlow
                 if(a.IPaddr == arr[1])
                 {
                     a.count++;
+                    commonFunc.addDestinationAddr(a, destination);
                     return;
                 }
             }
 
             // elst record not find
             denyTCPIncomingAddress.Add(new netRecord(arr[1]));
+            var aaa = denyTCPIncomingAddress.Count();
+            commonFunc.addDestinationAddr(denyTCPIncomingAddress[aaa-1], destination);
         }
 
-        public static void outputList(int maxstring = 15)
+        public static void outputList(int maxstring = Constant.DEFAULT_OUTPUT_STRING)
         {
             // sortint by count before output records
             denyTCPIncomingAddress.Sort();
@@ -44,6 +51,10 @@ namespace NetTrueFlow
             {
                 if (k == maxstring) { break; }
                 Console.WriteLine("\t\t\t{0}\t : {1}", a.IPaddr, a.count);
+                foreach (var b in a.listDest)
+                {
+                    Console.WriteLine("\t\t\t\t{0} - {1}", b.IPaddr, b.count);
+                }
                 k++;
             }
             Console.WriteLine();
@@ -55,11 +66,11 @@ namespace NetTrueFlow
     internal static class netListUDP
     {
         static List<netRecord> denyUDPIncomingAddress = new List<netRecord> { };
-        public static void addAddrInList(string str)
+        public static void addAddrInList(string source, string destination)
         {
-            if (string.IsNullOrEmpty(str)) { return; }
+            if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(destination)) { return; }
 
-            string[] arr = str.Split(':', '/');
+            string[] arr = source.Split(':', '/');
             if (arr.Count() != 3) { return; }
 
             // if find record in list
@@ -68,15 +79,18 @@ namespace NetTrueFlow
                 if (a.IPaddr == arr[1])
                 {
                     a.count++;
+                    commonFunc.addDestinationAddr(a, destination);
                     return;
                 }
             }
 
             // elst record not find
             denyUDPIncomingAddress.Add(new netRecord(arr[1]));
+            var maxelem = denyUDPIncomingAddress.Count;
+            commonFunc.addDestinationAddr(denyUDPIncomingAddress[maxelem-1], destination);
         }
 
-        public static void outputList(int maxstring = 15)
+        public static void outputList(int maxstring = Constant.DEFAULT_OUTPUT_STRING)
         {
             // sortint by count before output records
             denyUDPIncomingAddress.Sort();
@@ -87,6 +101,11 @@ namespace NetTrueFlow
             {
                 if (k == maxstring) { break; }
                 Console.WriteLine("\t\t\t{0}\t : {1}", a.IPaddr, a.count);
+                a.listDest.Sort();
+                foreach (var b in a.listDest)
+                {
+                    Console.WriteLine("\t\t\t\t{0} - {1}", b.IPaddr, b.count);
+                }
                 k++;
             }
             Console.WriteLine();
@@ -121,7 +140,7 @@ namespace NetTrueFlow
             denyICMPIncomingAddress.Add(new netRecord(arr[1]));
         }
 
-        public static void outputList(int maxstring = 15)
+        public static void outputList(int maxstring = Constant.DEFAULT_OUTPUT_STRING)
         {
             // sortint by count before output records
             denyICMPIncomingAddress.Sort();
@@ -136,6 +155,34 @@ namespace NetTrueFlow
             }
             Console.WriteLine();
         }
-
     }
+
+
+    // -----------------------------------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------------------------------
+    static class commonFunc
+    {
+        public static void addDestinationAddr(netRecord obj, string dst)
+        {
+            if (string.IsNullOrEmpty(dst)) { return; }
+
+            string[] arr = dst.Split(':', '/');
+            if (arr.Count() != 3) { return; }
+
+            // if find record in list
+            foreach (var a in obj.listDest)
+            {
+                if (a.IPaddr == arr[1])
+                {
+                    a.count++;
+                    return;
+                }
+            }
+
+            // elst record not find
+            obj.listDest.Add(new dest(arr[1]));
+
+        }
+    }
+
 }

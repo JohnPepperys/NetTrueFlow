@@ -76,17 +76,17 @@ namespace NetTrueFlow
                 {
                     if(arr[i] == "Deny")
                     {
-                       /* Console.WriteLine("proto: {0}", arr[i+1]);
+                        Console.WriteLine("proto: {0}", arr[i+1]);
                         Console.WriteLine("src: {0}", arr[i + 3]);
-                        Console.WriteLine("dst: {0}", arr[i + 5]); */
+                        Console.WriteLine("dst: {0}", arr[i + 5]); 
 
                         if (arr[i + 1] == "tcp") { 
                             countTCPblock++;
-                            netListTCP.addAddrInList(arr[i + 3]);
+                            netListTCP.addAddrInList(arr[i + 3], arr[i + 5]);
                         }
                         if (arr[i + 1] == "udp") {
                             countUDPblock++;
-                            netListUDP.addAddrInList(arr[i + 3]);
+                            netListUDP.addAddrInList(arr[i + 3], arr[i + 5]);
                         }
                         if (arr[i + 1] == "icmp") { 
                             countICMPblock++;
