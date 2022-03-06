@@ -90,4 +90,36 @@ namespace NetTrueFlow
         public static void printInList() { netOpenConnect.printInList(openICMPIncomingAddress); }
     }
 
+
+    // -------------------------------------------------------------------------------------------------------------------------
+    public static class netOpenDestConnectTCP
+    {
+        static List<netRecord> openTCPIncomeDestAddress = new List<netRecord> { };
+        public static void addOpenAddrInList(string src, string dst)
+        {
+            netOpenConnect.addOpenAddrInList(openTCPIncomeDestAddress, dst, src);
+        }
+        public static void printInList() { netOpenConnect.printInList(openTCPIncomeDestAddress); }
+    }
+
+    public static class netOpenDestConnectUDP
+    {
+        static List<netRecord> openUPDIncomeDestAddress = new List<netRecord> { };
+        public static void addOpenAddrInList(string src, string dst)
+        {
+            netOpenConnect.addOpenAddrInList(openUPDIncomeDestAddress, dst, src);
+        }
+        public static void printInList() { netOpenConnect.printInList(openUPDIncomeDestAddress); }
+    }
+
+    public static class netOpenDestConnectICMP
+    {
+        static List<netRecord> openICMPIncomeDestAddress = new List<netRecord> { };
+        public static void addOpenAddrInList(string src, string dst)
+        {
+            netOpenConnect.addOpenAddrInList(openICMPIncomeDestAddress, dst, src);
+        }
+        public static void printInList() { netOpenConnect.printInList(openICMPIncomeDestAddress); }
+    }
+
 }

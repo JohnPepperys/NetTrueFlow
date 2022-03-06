@@ -92,7 +92,10 @@ namespace NetTrueFlow
             netOpenConnectTCP.printInList();
             netOpenConnectUDP.printInList();
             netOpenConnectICMP.printInList();
-
+            Console.WriteLine("List inbound TCP Connection sort by Destination");
+            netOpenDestConnectTCP.printInList();
+            netOpenDestConnectUDP.printInList();
+            netOpenDestConnectICMP.printInList();
         }
 
         // ------------- work function -------------------------------------------------------------------
@@ -154,18 +157,21 @@ namespace NetTrueFlow
                                     {
                                         countInOpenTCP++;
                                         netOpenConnectTCP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                        netOpenDestConnectTCP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
                                         break;
                                     }
                                 case "UDP":
                                     {
                                         countInOpenUDP++;
                                         netOpenConnectUDP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                        netOpenDestConnectUDP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
                                         break;
                                     }
                                 case "ICMP":
                                     {
                                         countInOpenICMP++;
                                         netOpenConnectICMP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                        netOpenDestConnectICMP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
                                         break;
                                     }
                             }
