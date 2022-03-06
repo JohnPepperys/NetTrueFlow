@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace NetTrueFlow
 {
-    public class netOpenConnect
+    public static class netOpenConnect
     {
-        public void addOpenAddrInList(List<netRecord> list, string src, string dest)
+        public static void addOpenAddrInList(List<netRecord> list, string src, string dest)
         {
             if(string.IsNullOrEmpty(src) || string.IsNullOrEmpty(dest))
             {
@@ -33,7 +33,7 @@ namespace NetTrueFlow
         }
 
 
-        public void printInList(List<netRecord> list, int maxstring = 15)
+        public static void printInList(List<netRecord> list, int maxstring = 15)
         {
             list.Sort();
 
@@ -54,40 +54,40 @@ namespace NetTrueFlow
     }
 
 
-    public class netOpenConnectTCP : netOpenConnect
+    public static class netOpenConnectTCP 
     {
         static List<netRecord> openTCPIncomingAddress = new List<netRecord> { };
 
-        public void addOpenAddrInList(string src, string dst)
+        public static void addOpenAddrInList(string src, string dst)
         {
-            addOpenAddrInList(openTCPIncomingAddress, src, dst);
+            netOpenConnect.addOpenAddrInList(openTCPIncomingAddress, src, dst);
         }
 
-        public void printInList() { printInList(openTCPIncomingAddress); }
+        public static void printInList() { netOpenConnect.printInList(openTCPIncomingAddress); }
     }
 
-    public class netOpenConnectUDP : netOpenConnect
+    public static class netOpenConnectUDP
     {
         static List<netRecord> openUPDIncomingAddress = new List<netRecord> { };
 
-        public void addOpenAddrInList(string src, string dst)
+        public static void addOpenAddrInList(string src, string dst)
         {
-            addOpenAddrInList(openUPDIncomingAddress, src, dst);
+            netOpenConnect.addOpenAddrInList(openUPDIncomingAddress, src, dst);
         }
 
-        public void printInList() { printInList(openUPDIncomingAddress); }
+        public static void printInList() { netOpenConnect.printInList(openUPDIncomingAddress); }
     }
 
-    public class netOpenConnectICMP : netOpenConnect
+    public static class netOpenConnectICMP
     {
         static List<netRecord> openICMPIncomingAddress = new List<netRecord> { };
 
-        public void addOpenAddrInList(string src, string dst)
+        public static void addOpenAddrInList(string src, string dst)
         {
-            addOpenAddrInList(openICMPIncomingAddress, src, dst);
+            netOpenConnect.addOpenAddrInList(openICMPIncomingAddress, src, dst);
         }
 
-        public void printInList() { printInList(openICMPIncomingAddress); }
+        public static void printInList() { netOpenConnect.printInList(openICMPIncomingAddress); }
     }
 
 }

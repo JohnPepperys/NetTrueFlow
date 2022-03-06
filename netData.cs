@@ -89,12 +89,9 @@ namespace NetTrueFlow
             Console.WriteLine("Open outbound connection: {0}", countOutboundOpenConnection);
 
             Console.WriteLine("List inbound TCP Connection sort by Sources");
-            var aaa = new netOpenConnectTCP();
-            aaa.printInList();
-            var bbb = new netOpenConnectUDP();
-            bbb.printInList();
-            var ccc = new netOpenConnectICMP();
-            ccc.printInList();
+            netOpenConnectTCP.printInList();
+            netOpenConnectUDP.printInList();
+            netOpenConnectICMP.printInList();
 
         }
 
@@ -156,22 +153,19 @@ namespace NetTrueFlow
                                 case "TCP":
                                     {
                                         countInOpenTCP++;
-                                        var optcp = new netOpenConnectTCP();
-                                        optcp.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                        netOpenConnectTCP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
                                         break;
                                     }
                                 case "UDP":
                                     {
                                         countInOpenUDP++;
-                                        var optcp = new netOpenConnectUDP();
-                                        optcp.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                        netOpenConnectUDP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
                                         break;
                                     }
                                 case "ICMP":
                                     {
                                         countInOpenICMP++;
-                                        var optcp = new netOpenConnectICMP();
-                                        optcp.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                        netOpenConnectICMP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
                                         break;
                                     }
                             }
