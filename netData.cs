@@ -83,10 +83,22 @@ namespace NetTrueFlow
 
             Console.WriteLine("Open connection: {0}", countOpenConnection);
             Console.WriteLine("Open inbound connection: {0}", countInbountOpenConnection);
+            Console.WriteLine("\tTCP connect: {0}", countInOpenTCP);
+            Console.WriteLine("\tUDP connect: {0}", countInOpenUDP);
+            Console.WriteLine("\tICMP connect: {0}", countInOpenICMP);
             Console.WriteLine("Open outbound connection: {0}", countOutboundOpenConnection);
+
+            Console.WriteLine("List inbound TCP Connection sort by Sources");
+            var aaa = new netOpenConnectTCP();
+            aaa.printInList();
+            var bbb = new netOpenConnectUDP();
+            bbb.printInList();
+            var ccc = new netOpenConnectICMP();
+            ccc.printInList();
+
         }
 
-    // ------------- work function -------------------------------------------------------------------
+        // ------------- work function -------------------------------------------------------------------
         private static void parseOneString(string line)
         {
             var eventTime = getTimeFromString(line);
@@ -142,12 +154,26 @@ namespace NetTrueFlow
                             switch(arr[i+1])
                             {
                                 case "TCP":
-
-                                    break;
+                                    {
+                                        countInOpenTCP++;
+                                        var optcp = new netOpenConnectTCP();
+                                        optcp.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                        break;
+                                    }
                                 case "UDP":
-                                    break ;
+                                    {
+                                        countInOpenUDP++;
+                                        var optcp = new netOpenConnectUDP();
+                                        optcp.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                        break;
+                                    }
                                 case "ICMP":
-                                    break;
+                                    {
+                                        countInOpenICMP++;
+                                        var optcp = new netOpenConnectICMP();
+                                        optcp.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                        break;
+                                    }
                             }
                             break;
                         }

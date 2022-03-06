@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NetTrueFlow
 {
-    internal class dest : IComparable<dest>
+    public class dest : IComparable<dest>
     {
         public string IPaddr { get; }
         public int count { get; set; } = 1;
@@ -19,7 +19,7 @@ namespace NetTrueFlow
 
     }
 
-    internal class netRecord : IComparable<netRecord>
+    public class netRecord : IComparable<netRecord>
     {
         public string IPaddr { get; }
         public int count { get; set; } = 1;
