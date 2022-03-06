@@ -14,14 +14,16 @@ namespace NetTrueFlow
 
     internal static class netListTCP
     {
-             
+           
         static List<netRecord> denyTCPIncomingAddress = new List<netRecord> { };
         public static void addAddrInList(string str, string destination)
         {
-            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(destination)) { return; }
+            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(destination)) {
+                throw new Exception("переданы пустые данные в поле source или destination!");
+            }
 
             string[] arr = str.Split(':', '/');
-            if (arr.Count() != 3) { return; }
+            if (arr.Count() != 3) { throw new Exception("Строка содержит неверный формат!"); }
 
             // if find record in list
             foreach (var a in denyTCPIncomingAddress)
@@ -68,10 +70,11 @@ namespace NetTrueFlow
         static List<netRecord> denyUDPIncomingAddress = new List<netRecord> { };
         public static void addAddrInList(string source, string destination)
         {
-            if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(destination)) { return; }
+            if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(destination)) { 
+                throw new Exception("переданы пустые данные в поле source или destination!"); }
 
             string[] arr = source.Split(':', '/');
-            if (arr.Count() != 3) { return; }
+            if (arr.Count() != 3) { throw new Exception("Строка содержит неверный формат!"); }
 
             // if find record in list
             foreach (var a in denyUDPIncomingAddress)
@@ -119,12 +122,14 @@ namespace NetTrueFlow
     internal static class netListICMP
     {
         static List<netRecord> denyICMPIncomingAddress = new List<netRecord> { };
-        public static void addAddrInList(string str)
+        public static void addAddrInList(string str, string destination)
         {
-            if (string.IsNullOrEmpty(str)) { return; }
+            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(destination)) {
+                throw new Exception("переданы пустые данные в поле source или destination!");
+            }
 
             string[] arr = str.Split(':');
-            if (arr.Count() != 2) { return; }
+            if (arr.Count() != 2) { throw new Exception("Строка содержит неверный формат!"); }
 
             // if find record in list
             foreach (var a in denyICMPIncomingAddress)
@@ -132,12 +137,15 @@ namespace NetTrueFlow
                 if (a.IPaddr == arr[1])
                 {
                     a.count++;
+                    commonFunc.addDestinationAddr(a, destination);
                     return;
                 }
             }
 
             // elst record not find
             denyICMPIncomingAddress.Add(new netRecord(arr[1]));
+            var ss = denyICMPIncomingAddress.Count;
+            commonFunc.addDestinationAddr(denyICMPIncomingAddress[ss-1], destination);
         }
 
         public static void outputList(int maxstring = Constant.DEFAULT_OUTPUT_STRING)
@@ -151,6 +159,10 @@ namespace NetTrueFlow
             {
                 if (k == maxstring) { break; }
                 Console.WriteLine("\t\t\t{0}\t : {1}", a.IPaddr, a.count);
+                foreach (var b in a.listDest)
+                {
+                    Console.WriteLine("\t\t\t\t{0} - {1}", b.IPaddr, b.count);
+                }
                 k++;
             }
             Console.WriteLine();
@@ -164,10 +176,12 @@ namespace NetTrueFlow
     {
         public static void addDestinationAddr(netRecord obj, string dst)
         {
-            if (string.IsNullOrEmpty(dst)) { return; }
+            if (string.IsNullOrEmpty(dst)) { 
+                throw new Exception("переданы пустые данные в поле destination!"); }
 
             string[] arr = dst.Split(':', '/');
-            if (arr.Count() != 3) { return; }
+            if (arr.Count() < 2) { 
+                throw new Exception("Строка содержит неверный формат!"); }
 
             // if find record in list
             foreach (var a in obj.listDest)

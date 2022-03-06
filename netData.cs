@@ -13,17 +13,26 @@ namespace NetTrueFlow
         static public string inputFile { get; set; }
 
         // всего обработано строк в файле
-        static int allString = 0;
+        static ulong allString = 0;
         // всего строк имеет отношение к сетевому журналу
-        static int allDataString = 0;
+        static ulong allDataString = 0;
         // Count TCP block packet
-        static int countTCPblock = 0;
+        static ulong countTCPblock = 0;
         // Count UDP block packet
-        static int countUDPblock = 0;
+        static ulong countUDPblock = 0;
         // Count ICMP block packet
-        static int countICMPblock = 0;
-        static int blockConnection = 0;
-        
+        static ulong countICMPblock = 0;
+        static ulong blockConnection = 0;
+
+        // count open connection
+        static ulong countOpenConnection = 0;
+        // count open inbound connection
+        static ulong countInbountOpenConnection = 0;
+        // count open outbound connection
+        static ulong countOutboundOpenConnection = 0;
+        static ulong countInOpenTCP = 0;
+        static ulong countInOpenUDP = 0;
+        static ulong countInOpenICMP = 0;
 
         public static void parsingData(string fileName)
         {
@@ -54,12 +63,27 @@ namespace NetTrueFlow
             Console.WriteLine("Parsing all lines: {0}", allString);
             Console.WriteLine("Lines from cisco FPR log: {0}", allDataString);
             Console.WriteLine("Block connection: {0}", blockConnection);
-            Console.WriteLine("\tBlock TCP connection: {0}", countTCPblock);
+
+           /* Console.WriteLine("\tGroup DENY packets by Sources!!!");
+            Console.WriteLine("\t\tBlock TCP connection: {0}", countTCPblock);
             netListTCP.outputList();
-            Console.WriteLine("\tBlock UDP connection: {0}", countUDPblock);
+            Console.WriteLine("\t\tBlock UDP connection: {0}", countUDPblock);
             netListUDP.outputList();
-            Console.WriteLine("\tBlock ICMP connection: {0}", countICMPblock);
+            Console.WriteLine("\t\tBlock ICMP connection: {0}", countICMPblock);
             netListICMP.outputList();
+
+            Console.WriteLine("\tGroup DENY packets by destintaion!!!");
+            Console.WriteLine("\t\tBlock TCP connection: {0}", countTCPblock);
+            netDenyDestinationTCP.outputList();
+            Console.WriteLine("\t\tBlock UDP connection: {0}", countUDPblock);
+            netDenyDestinationUDP.outputList();
+            Console.WriteLine("\t\tBlock ICMP connection: {0}", countICMPblock);
+            netDenyDestinationICMP.outputList();
+           */
+
+            Console.WriteLine("Open connection: {0}", countOpenConnection);
+            Console.WriteLine("Open inbound connection: {0}", countInbountOpenConnection);
+            Console.WriteLine("Open outbound connection: {0}", countOutboundOpenConnection);
         }
 
     // ------------- work function -------------------------------------------------------------------
@@ -72,34 +96,74 @@ namespace NetTrueFlow
             {
                 blockConnection++;
                 string[] arr = line.Split(' ');
-                for(var i = 0; i < arr.Length; i++)
+                for(var i = 0; i < arr.Count(); i++)
                 {
                     if(arr[i] == "Deny")
                     {
-                        Console.WriteLine("proto: {0}", arr[i+1]);
-                        Console.WriteLine("src: {0}", arr[i + 3]);
-                        Console.WriteLine("dst: {0}", arr[i + 5]); 
-
-                        if (arr[i + 1] == "tcp") { 
+                        if (arr[i + 1] == "tcp")
+                        {
                             countTCPblock++;
                             netListTCP.addAddrInList(arr[i + 3], arr[i + 5]);
+                            netDenyDestinationTCP.addAddrInList(arr[i + 5], arr[i + 3]);
                         }
-                        if (arr[i + 1] == "udp") {
-                            countUDPblock++;
-                            netListUDP.addAddrInList(arr[i + 3], arr[i + 5]);
+                        else
+                        {
+                            if (arr[i + 1] == "udp")
+                            {
+                                countUDPblock++;
+                                netListUDP.addAddrInList(arr[i + 3], arr[i + 5]);
+                                netDenyDestinationUDP.addAddrInList(arr[i + 5], arr[i + 3]);
+                            }
+                            else
+                            {
+                                if (arr[i + 1] == "icmp")
+                                {
+                                    countICMPblock++;
+                                    netListICMP.addAddrInList(arr[i + 3], arr[i + 5]);
+                                    netDenyDestinationICMP.addAddrInList(arr[i + 5], arr[i + 3]);
+                                }
+                            }
                         }
-                        if (arr[i + 1] == "icmp") { 
-                            countICMPblock++;
-                            netListICMP.addAddrInList(arr[i + 3]);
-                        }
+                        break;
                     }
                 }
             }
             else {
-                // Build dynamic
-                if (line.Contains(" Build "))
+                // Открываем входящие соединения
+                if (line.Contains(" Built inbound "))
                 {
+                    countOpenConnection++;
+                    countInbountOpenConnection++;
+                    string[] arr = line.Split(' ');
+                    for(var i = 0; i < arr.Count(); i++)
+                    {
+                        if(arr[i] == "inbound")
+                        {
+                            switch(arr[i+1])
+                            {
+                                case "TCP":
+
+                                    break;
+                                case "UDP":
+                                    break ;
+                                case "ICMP":
+                                    break;
+                            }
+                            break;
+                        }
+                    }
                     return;
+                }
+                else
+                {
+
+                    // Открываем исходящее соединение
+                    if (line.Contains(" Built outbound "))
+                    {
+                        countOpenConnection++;
+                        countOutboundOpenConnection++;
+                        return;
+                    }
                 }
             }
         }

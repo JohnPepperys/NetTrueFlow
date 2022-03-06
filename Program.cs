@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -16,8 +17,16 @@ namespace NetTrueFlow
 
             try
             {
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
+
                 netData.parsingData(path);
+                
+                watch.Stop();
                 netData.outputResult();
+                TimeSpan ts = watch.Elapsed;
+                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:000}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
+                Console.WriteLine("Working time: {0}", elapsedTime);
             } catch (Exception e) { 
                 Console.WriteLine(e.Message);
             }
