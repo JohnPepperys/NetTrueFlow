@@ -1,4 +1,5 @@
 ﻿@page
+@using NetTrueFlow
 @model IndexModel
 @{
     ViewData["Title"] = "General";
@@ -6,5 +7,46 @@
 
 <div class="text-center">
     <h1 class="display-4">General data</h1>
-    <p>Here text about.</p>
+    <table class="table table-bordered">
+        <tr>
+            <td>File: @netData.inputFile</td>
+        </tr>
+        <tr>
+            <td>Всего строк в файле</td> <td>@netData.allString</td>
+        </tr>
+        <tr>
+            <td>Всего строк сетевого журнала</td> <td>@netData.allDataString</td>
+        </tr>
+        <tr>
+            <td>Всего соединений заблокированно</td> <td>@netData.blockConnection</td>
+        </tr>
+        <tr>
+            <td> </td><td>Из них TCP соединений заблокированно</td> <td>@netData.countTCPblock</td>
+        </tr>
+        <tr>
+            <td> </td><td>Из них UDP соединений заблокированно</td> <td>@netData.countUDPblock</td>
+        </tr>
+        <tr>
+            <td> </td><td>Их них ICMP соединений заблокированно</td> <td>@netData.countICMPblock</td>
+        </tr>
+
+        <tr><td> </td></tr>
+        <tr>
+            <td>Всего созданно ВХОДЯЩИХ соединений</td> <td>@netData.countInbountOpenConnection</td>
+        </tr>
+        <tr>
+            <td> </td><td>Из них созданно входящих TCP соединений</td> <td>@netData.countInOpenTCP</td>
+        </tr>
+        <tr>
+            <td> </td><td>Из них созданно входящих UDP соединений</td> <td>@netData.countInOpenUDP</td>
+        </tr>
+        <tr>
+            <td> </td><td>Их них созданно входящих ICMP соединений</td> <td>@netData.countInOpenICMP</td>
+        </tr>
+        <tr>
+            <td>Всего созданно ИСХОДЯЩИХ соединений</td> <td>@netData.countOutboundOpenConnection</td>
+        </tr>
+    </table>
+    
+    <p class="text-left">Обработка файла произведена за: @Program.elapsedTime</p>
 </div>
