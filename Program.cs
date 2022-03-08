@@ -8,7 +8,7 @@ namespace NetTrueFlow
     internal class Program
     {
         // open log file
-        static string path = @"E:\work\Programm\2022\C#\NetTrueFlow\log\cisco.log";
+        static string path = @"C:\programm\C#\NetTrueFlow\log\cisco.log";
 
 
         static void Main(string[] args)

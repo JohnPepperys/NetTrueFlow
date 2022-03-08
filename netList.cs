@@ -105,9 +105,12 @@ namespace NetTrueFlow
                 if (k == maxstring) { break; }
                 Console.WriteLine("\t\t\t{0}\t : {1}", a.IPaddr, a.count);
                 a.listDest.Sort();
+                int i = 0;
                 foreach (var b in a.listDest)
                 {
+                    if (i == maxstring) { break; }
                     Console.WriteLine("\t\t\t\t{0} - {1}", b.IPaddr, b.count);
+                    i++;
                 }
                 k++;
             }

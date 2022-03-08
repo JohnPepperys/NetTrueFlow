@@ -43,9 +43,15 @@ namespace NetTrueFlow
             {
                 if (k == maxstring) { break; }
                 Console.WriteLine("\t{0}\t : {1}", a.IPaddr, a.count);
+                uint i = 0;
                 foreach (var b in a.listDest)
                 {
+                    if(i == maxstring)
+                    {
+                        break;
+                    }
                     Console.WriteLine("\t\t{0} - {1}", b.IPaddr, b.count);
+                    i++;
                 }
                 k++;
             }
