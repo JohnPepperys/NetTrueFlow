@@ -13,7 +13,10 @@ namespace NetTrueFlow
         static public string inputFile { get; set; }
 
         // всего обработано строк в файле
+        public static ulong commonStringCounter = 0;
         public static ulong allString = 0;
+        // строки с ошибками
+        public static ulong errorString = 0;
         // всего строк имеет отношение к сетевому журналу
         public static ulong allDataString = 0;
         // Count TCP block packet
@@ -46,11 +49,19 @@ namespace NetTrueFlow
             {
                 foreach (string line in File.ReadLines(inputFile))
                 {
-                    allString++;
+                    commonStringCounter++;
                     if (line.Contains("%ASA-"))
                     {
-                        allDataString++;
-                        parseOneString(line);
+                        try
+                        {
+                            parseOneString(line);
+                            allDataString++;
+                        }
+                        catch (Exception ex)
+                        {
+                            errorString++;
+                            Console.WriteLine(ex.Message);
+                        }
                     }
                 }
             } catch (Exception e) { 

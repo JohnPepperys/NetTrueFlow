@@ -23,7 +23,9 @@ namespace NetTrueFlow
             }
 
             string[] arr = str.Split(':', '/');
-            if (arr.Count() != 3) { throw new Exception("Строка содержит неверный формат!"); }
+            if (arr.Count() != 3) {
+               throw new Exception(String.Format("{0}: Строка {1} содержит неверный формат!", "netListTCP", netData.commonStringCounter)); 
+            }
 
             // if find record in list
             foreach (var a in denyTCPIncomingAddress)
