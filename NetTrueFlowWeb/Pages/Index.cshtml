@@ -12,43 +12,78 @@
             <td>File: @netData.inputFile</td>
         </tr>
         <tr>
-            <td>Всего строк в файле</td> <td>@netData.allString</td>
+            <td>Всего строк в файле</td>
+            <td>@netData.commonStringCounter</td>
         </tr>
         <tr>
-            <td>Cтрок в файле c ошибками</td> <td>@netData.errorString</td>
+            <td>Cтрок в файле c ошибками</td>
+            <td>@netData.errorString</td>
         </tr>
         <tr>
-            <td>Всего строк сетевого журнала</td> <td>@netData.allDataString</td>
+            <td>Всего строк сетевого журнала</td>
+            <td>@netData.allDataString</td>
         </tr>
         <tr>
-            <td>Всего соединений заблокированно</td> <td>@netData.blockConnection</td>
+            <td>Всего соединений заблокированно</td>
+            <td>@netData.blockConnection</td>
         </tr>
         <tr>
-            <td> </td><td>Из них TCP соединений заблокированно</td> <td>@netData.countTCPblock</td>
+            <td> </td>
+            <td>Из них TCP соединений заблокированно</td>
+            <td>@netData.countTCPblock</td>
         </tr>
         <tr>
-            <td> </td><td>Из них UDP соединений заблокированно</td> <td>@netData.countUDPblock</td>
+            <td> </td>
+            <td>Из них UDP соединений заблокированно</td>
+            <td>@netData.countUDPblock</td>
         </tr>
         <tr>
-            <td> </td><td>Их них ICMP соединений заблокированно</td> <td>@netData.countICMPblock</td>
+            <td> </td>
+            <td>Их них ICMP соединений заблокированно</td>
+            <td>@netData.countICMPblock</td>
         </tr>
 
         <tr><td> </td></tr>
         <tr>
-            <td>Всего созданно ВХОДЯЩИХ соединений</td> <td>@netData.countInbountOpenConnection</td>
+            <td>Всего пропущено ВХОДЯЩИХ соединений</td>
+            <td>@netData.countInbountOpenConnection</td>
         </tr>
         <tr>
-            <td> </td><td>Из них созданно входящих TCP соединений</td> <td>@netData.countInOpenTCP</td>
+            <td> </td>
+            <td>Из них пропущено входящих TCP соединений</td>
+            <td>@netData.countInOpenTCP</td>
         </tr>
         <tr>
-            <td> </td><td>Из них созданно входящих UDP соединений</td> <td>@netData.countInOpenUDP</td>
+            <td> </td>
+            <td>Из них пропущено входящих UDP соединений</td>
+            <td>@netData.countInOpenUDP</td>
         </tr>
         <tr>
-            <td> </td><td>Их них созданно входящих ICMP соединений</td> <td>@netData.countInOpenICMP</td>
+            <td> </td>
+            <td>Их них пропущено входящих ICMP соединений</td>
+            <td>@netData.countInOpenICMP</td>
+        </tr>
+        <tr><td> </td></tr>
+        <tr>
+            <td>Всего пропущено ИСХОДЯЩИХ соединений</td>
+            <td>@netData.countOutboundOpenConnection</td>
         </tr>
         <tr>
-            <td>Всего созданно ИСХОДЯЩИХ соединений</td> <td>@netData.countOutboundOpenConnection</td>
+            <td> </td>
+            <td>Из них пропущено входящих TCP соединений</td>
+            <td>@netData.countOutOpenTCP</td>
         </tr>
+        <tr>
+            <td> </td>
+            <td>Из них пропущено входящих UDP соединений</td>
+            <td>@netData.countOutOpenUDP</td>
+        </tr>
+        <tr>
+            <td> </td>
+            <td>Их них пропущено входящих ICMP соединений</td>
+            <td>@netData.countOutOpenICMP</td>
+        </tr>
+
     </table>
     
     <p class="text-left">Обработка файла произведена за: @Program.elapsedTime</p>

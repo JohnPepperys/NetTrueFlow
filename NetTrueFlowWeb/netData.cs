@@ -37,6 +37,10 @@ namespace NetTrueFlow
         public static ulong countInOpenUDP = 0;
         public static ulong countInOpenICMP = 0;
 
+        public static ulong countOutOpenTCP = 0;
+        public static ulong countOutOpenUDP = 0;
+        public static ulong countOutOpenICMP = 0;
+
         public static void parsingData(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -71,7 +75,7 @@ namespace NetTrueFlow
 
         public static void outputResult()
         {
-            Console.WriteLine("Parsing all lines: {0}", allString);
+            Console.WriteLine("Parsing all lines: {0}", commonStringCounter);
             Console.WriteLine("Lines from cisco FPR log: {0}", allDataString);
             Console.WriteLine("Block connection: {0}", blockConnection);
 
@@ -199,6 +203,41 @@ namespace NetTrueFlow
                     {
                         countOpenConnection++;
                         countOutboundOpenConnection++;
+                        
+                        string[] arr = line.Split(' ');
+                        for (var i = 0; i < arr.Count(); i++)
+                        {
+                            if (arr[i] == "outbound")
+                            {
+                                switch (arr[i + 1])
+                                {
+                                           case "TCP":
+                                               {
+                                                   countOutOpenTCP++;
+                                                 //  netOpenOutConnectTCP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                                  // netOpenOutDestConnectTCP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                                   break;
+                                               }
+                                           case "UDP":
+                                               {
+                                                   countOutOpenUDP++;
+                                                 //  netOpenOutConnectUDP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                                 //  netOpenOutDestConnectUDP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                                   break;
+                                               }
+                                           case "ICMP":
+                                               {
+                                                   countOutOpenICMP++;
+                                                 //  netOpenOutConnectICMP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                                 //  netOpenOutDestConnectICMP.addOpenAddrInList(arr[i + 5], arr[i + 8]);
+                                                   break;
+                                               } 
+                                    default:
+                                        break;
+                                }
+                                break;
+                            }
+                        }
                         return;
                     }
                 }

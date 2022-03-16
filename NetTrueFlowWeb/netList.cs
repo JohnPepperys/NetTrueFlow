@@ -76,7 +76,9 @@ namespace NetTrueFlow
                 throw new Exception("переданы пустые данные в поле source или destination!"); }
 
             string[] arr = source.Split(':', '/');
-            if (arr.Count() != 3) { throw new Exception("Строка содержит неверный формат!"); }
+            if (arr.Count() != 3) { 
+                throw new Exception(String.Format("{0}: Строка {1} содержит неверный формат!", "netListUDP", netData.commonStringCounter)); 
+            }
 
             // if find record in list
             foreach (var a in denyUDPIncomingAddress)
@@ -134,7 +136,9 @@ namespace NetTrueFlow
             }
 
             string[] arr = str.Split(':');
-            if (arr.Count() != 2) { throw new Exception("Строка содержит неверный формат!"); }
+            if (arr.Count() != 2) { 
+                throw new Exception(String.Format("{0}: Строка {1} содержит неверный формат!", "netListICMP", netData.commonStringCounter)); 
+            }
 
             // if find record in list
             foreach (var a in denyICMPIncomingAddress)
@@ -186,7 +190,8 @@ namespace NetTrueFlow
 
             string[] arr = dst.Split(':', '/');
             if (arr.Count() < 2) { 
-                throw new Exception("Строка содержит неверный формат!"); }
+                throw new Exception("addDestinationAddr: Строка содержит неверный формат!"); 
+            }
 
             // if find record in list
             foreach (var a in obj.listDest)

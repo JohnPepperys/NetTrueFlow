@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace NetTrueFlow
 {
-    static class netDenyDestinationTCP
+    public static class netDenyDestinationTCP
     {
-        static List<netRecord> denyTCPgroupbyDestination = new List<netRecord> { };
+        public static List<netRecord> denyTCPgroupbyDestination = new List<netRecord> { };
         public static void addAddrInList(string str, string destination)
         {
             if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(destination)) { 
@@ -59,7 +59,7 @@ namespace NetTrueFlow
 
     static class netDenyDestinationUDP
     {
-        static List<netRecord> denyUDPgroupbyDestination = new List<netRecord> { };
+        public static List<netRecord> denyUDPgroupbyDestination = new List<netRecord> { };
         public static void addAddrInList(string str, string destination)
         {
             if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(destination)) { 
@@ -110,7 +110,7 @@ namespace NetTrueFlow
 
     static class netDenyDestinationICMP
     {
-        static List<netRecord> denyICMPgroupbyDestination = new List<netRecord> { };
+        public static List<netRecord> denyICMPgroupbyDestination = new List<netRecord> { };
         public static void addAddrInList(string str, string destination)
         {
             if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(destination)) { 

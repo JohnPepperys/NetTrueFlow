@@ -8,27 +8,11 @@
 <div class="text-center">
     <h1 class="text-danger">Deny Connections.</h1>
 
-    <table>
-        <tr><td>Group Deny Connection by SOURCES</td></tr>
-        @{
-            int i = 0;
-        }
-        @foreach(var zap in netListTCP.denyTCPIncomingAddress)
-        {
-            if(i == 15) { break; }
-            i++;
-
-            <tr>
-                <td>@zap.IPaddr</td> <td></td> <td>@zap.count</td>
-            </tr>
-            @foreach (var bzap in zap.listDest)
-            {
-                <tr>
-                    <td>@bzap.IPaddr</td> <td>@bzap.count</td>
-                </tr>        
-            }
-        }
-
-        <tr><td>Group Deny Connection by DESTINATION</td></tr>
+    <h2 class="text-danger">TCP Packet</h2>
+    <table border="1">
+        <tr><td> Group Deny Connection by SOURCES </td> <td> Group Deny Connection by DESTINATION </td> </tr>
     </table>
+
+    <h2 class="text-danger">UDP Packet</h2>
+    <h2 class="text-danger">ICMP Packet</h2>
 </div>
