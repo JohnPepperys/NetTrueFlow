@@ -12,6 +12,8 @@ namespace NetTrueFlowWeb.Pages
          
         public void OnGet()
         {
+            var dTCP = new DenyOutput();
+            dTCP.DenyTCPOutput();
         }
     }
 }

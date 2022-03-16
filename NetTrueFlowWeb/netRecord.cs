@@ -9,7 +9,7 @@ namespace NetTrueFlow
     public class dest : IComparable<dest>
     {
         public string IPaddr { get; }
-        public int count { get; set; } = 1;
+        public ulong count { get; set; } = 1;
         public dest(string ipaddr) => IPaddr = ipaddr;
         public int CompareTo(dest? rec)
         {
@@ -22,7 +22,7 @@ namespace NetTrueFlow
     public class netRecord : IComparable<netRecord>
     {
         public string IPaddr { get; }
-        public int count { get; set; } = 1;
+        public ulong count { get; set; } = 1;
         public List<dest> listDest = new List<dest>();
         public netRecord(string ipaddr) => IPaddr = ipaddr;
 

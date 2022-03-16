@@ -9,6 +9,7 @@ namespace NetTrueFlow
     static class Constant
     {
         public const int DEFAULT_OUTPUT_STRING = 15;
+        public const int DEFAULT_OUTPUT_STRING_2 = 5;
     }
 
 

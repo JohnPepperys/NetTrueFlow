@@ -7,10 +7,18 @@
 
 <div class="text-center">
     <h1 class="text-danger">Deny Connections.</h1>
-
+    
     <h2 class="text-danger">TCP Packet</h2>
-    <table border="1">
-        <tr><td> Group Deny Connection by SOURCES </td> <td> Group Deny Connection by DESTINATION </td> </tr>
+    <table class="text-center" border="1">
+        <tr><td colspan="3"> Group Deny Connection by SOURCES </td> <td colspan="3"> Group Deny Connection by DESTINATION </td> </tr>
+        
+        @foreach(var datarow in DenyOutput.outputTCP)
+        {
+           <tr>
+               <td> @datarow.sourceS_IP </td> <td>@datarow.sourceD_IP</td> <td> @datarow.sourcec </td> 
+               <td> @datarow.destS_IP </td> <td> @datarow.destD_IP </td> <td> @datarow.destc </td>
+           </tr>
+        }
     </table>
 
     <h2 class="text-danger">UDP Packet</h2>

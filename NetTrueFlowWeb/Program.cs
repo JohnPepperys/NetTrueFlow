@@ -16,7 +16,9 @@ namespace NetTrueFlowWeb
         static public string elapsedTime { get; set; }
         public static void Main(string[] args)
         {
-            string FilePath = @"E:\program\C#\NetTrueFlow\log\cisco.log";
+            // string FilePath = @"E:\program\C#\NetTrueFlow\log\cisco.log";
+            string FilePath = @"E:\Work\programm\2022\C#\NetTrueFlow\log\cisco.log";
+
             try
             {
                 Stopwatch watch = new Stopwatch();
